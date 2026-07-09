@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { LogIn, Key, Mail, Shield, User, Building } from 'lucide-react';
+import { API_BASE } from '../api';
 
 interface LoginProps {
   onLoginSuccess: (token: string, user: { id: string, name: string, email: string, role: 'admin' | 'employee', department: string }) => void;
@@ -26,7 +27,7 @@ export default function Login({ onLoginSuccess }: LoginProps) {
     setLoading(true);
 
     try {
-      const response = await fetch('/api/auth/login', {
+      const response = await fetch(`${API_BASE}/api/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })

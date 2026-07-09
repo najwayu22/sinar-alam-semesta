@@ -10,6 +10,7 @@ import {
   XAxis, YAxis, Tooltip, Legend, CartesianGrid 
 } from 'recharts';
 import { Attendance, LeaveRequest, MonthlyAnalytics } from '../types';
+import { API_BASE } from '../api';
 
 interface DashboardAdminProps {
   token: string;
@@ -82,7 +83,7 @@ export default function DashboardAdmin({ token, user, onLogout }: DashboardAdmin
     setLoading(true);
     try {
       // 1. Fetch All Attendance Reports
-      const attRes = await fetch('/api/attendance/all', {
+      const attRes = await fetch(`${API_BASE}/api/attendance/all`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const attData = await attRes.json();
@@ -91,7 +92,7 @@ export default function DashboardAdmin({ token, user, onLogout }: DashboardAdmin
       }
 
       // 2. Fetch All Leave submissions
-      const leaveRes = await fetch('/api/leaves', {
+      const leaveRes = await fetch(`${API_BASE}/api/leaves`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const leaveData = await leaveRes.json();
@@ -100,7 +101,7 @@ export default function DashboardAdmin({ token, user, onLogout }: DashboardAdmin
       }
 
       // 3. Fetch Registered workers list
-      const empRes = await fetch('/api/employees', {
+      const empRes = await fetch(`${API_BASE}/api/employees`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const empData = await empRes.json();
@@ -109,7 +110,7 @@ export default function DashboardAdmin({ token, user, onLogout }: DashboardAdmin
       }
 
       // 4. Fetch Analytics dashboards aggregates
-      const analysisRes = await fetch('/api/analytics', {
+      const analysisRes = await fetch(`${API_BASE}/api/analytics`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const analysisData = await analysisRes.json();
@@ -119,7 +120,7 @@ export default function DashboardAdmin({ token, user, onLogout }: DashboardAdmin
       }
 
       // 5. Fetch all registered users for management tab
-      const usersRes = await fetch('/api/users', {
+      const usersRes = await fetch(`${API_BASE}/api/users`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const usersData = await usersRes.json();
@@ -142,7 +143,7 @@ export default function DashboardAdmin({ token, user, onLogout }: DashboardAdmin
     }
     setUserActionLoading('create');
     try {
-      const res = await fetch('/api/users', {
+      const res = await fetch(`${API_BASE}/api/users`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -182,7 +183,7 @@ export default function DashboardAdmin({ token, user, onLogout }: DashboardAdmin
   const handleDeleteUser = async (userId: string) => {
     setUserActionLoading(userId);
     try {
-      const res = await fetch(`/api/users/${userId}`, {
+      const res = await fetch(`${API_BASE}/api/users/${userId}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });
@@ -208,7 +209,7 @@ export default function DashboardAdmin({ token, user, onLogout }: DashboardAdmin
   const handleApproveLeave = async (leaveId: string, action: 'approved' | 'rejected') => {
     setActionLoading(leaveId);
     try {
-      const res = await fetch(`/api/leaves/${leaveId}/approve`, {
+      const res = await fetch(`${API_BASE}/api/leaves/${leaveId}/approve`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -239,7 +240,7 @@ export default function DashboardAdmin({ token, user, onLogout }: DashboardAdmin
     }
 
     try {
-      const res = await fetch('/api/attendance/manual-absent', {
+      const res = await fetch(`${API_BASE}/api/attendance/manual-absent`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,

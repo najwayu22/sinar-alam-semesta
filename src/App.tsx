@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { API_BASE } from './api';
 import Login from './components/Login';
 import DashboardKaryawan from './components/DashboardKaryawan';
 import DashboardAdmin from './components/DashboardAdmin';
@@ -23,7 +24,7 @@ export default function App() {
     
     if (storedToken) {
       // Validate token with server to restore session
-      fetch('/api/auth/me', {
+      fetch(`${API_BASE}/api/auth/me`, {
         headers: {
           'Authorization': `Bearer ${storedToken}`
         }

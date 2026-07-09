@@ -4,6 +4,7 @@ import {
   CheckCircle2, Bell, RefreshCw, ShieldAlert, FileMinus, ClipboardList
 } from 'lucide-react';
 import { Attendance, LeaveRequest, Notification } from '../types';
+import { API_BASE } from '../api';
 
 interface DashboardKaryawanProps {
   token: string;
@@ -51,7 +52,7 @@ export default function DashboardKaryawan({ token, user, onLogout }: DashboardKa
 
     try {
       // 1. Get Today's Status
-      const todayRes = await fetch('/api/attendance/status', {
+      const todayRes = await fetch(`${API_BASE}/api/attendance/status`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const todayData = await todayRes.json();
@@ -60,7 +61,7 @@ export default function DashboardKaryawan({ token, user, onLogout }: DashboardKa
       }
 
       // 2. Get Personal History
-      const histRes = await fetch('/api/attendance/history', {
+      const histRes = await fetch(`${API_BASE}/api/attendance/history`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const histData = await histRes.json();
@@ -69,7 +70,7 @@ export default function DashboardKaryawan({ token, user, onLogout }: DashboardKa
       }
 
       // 3. Get Employee Leave Applications
-      const leaveRes = await fetch('/api/leaves', {
+      const leaveRes = await fetch(`${API_BASE}/api/leaves`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const leaveData = await leaveRes.json();
@@ -78,7 +79,7 @@ export default function DashboardKaryawan({ token, user, onLogout }: DashboardKa
       }
 
       // 4. Get Notifications
-      const notifRes = await fetch('/api/notifications', {
+      const notifRes = await fetch(`${API_BASE}/api/notifications`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const notifData = await notifRes.json();
@@ -104,7 +105,7 @@ export default function DashboardKaryawan({ token, user, onLogout }: DashboardKa
     setSubmittingClock(true);
     setClockMsg(null);
     try {
-      const res = await fetch('/api/attendance/clock-in', {
+      const res = await fetch(`${API_BASE}/api/attendance/clock-in`, {
         method: 'POST',
         headers: { 
           'Authorization': `Bearer ${token}`,
@@ -130,7 +131,7 @@ export default function DashboardKaryawan({ token, user, onLogout }: DashboardKa
     setSubmittingClock(true);
     setClockMsg(null);
     try {
-      const res = await fetch('/api/attendance/clock-out', {
+      const res = await fetch(`${API_BASE}/api/attendance/clock-out`, {
         method: 'POST',
         headers: { 
           'Authorization': `Bearer ${token}`,
@@ -175,7 +176,7 @@ export default function DashboardKaryawan({ token, user, onLogout }: DashboardKa
     setLeaveMsg(null);
 
     try {
-      const res = await fetch('/api/leaves', {
+      const res = await fetch(`${API_BASE}/api/leaves`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -206,7 +207,7 @@ export default function DashboardKaryawan({ token, user, onLogout }: DashboardKa
   // Clear unread notifications
   const handleClearNotifications = async () => {
     try {
-      const res = await fetch('/api/notifications/read-all', {
+      const res = await fetch(`${API_BASE}/api/notifications/read-all`, {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${token}` }
       });
