@@ -3,11 +3,7 @@
   "builds": [
     {
       "src": "server.ts",
-      "use": "@vercel/node",
-      "config": {
-        "includeFiles": ["database.json", "package.json"],
-        "zeroConfig": true
-      }
+      "use": "@vercel/node"
     }
   ],
   "routes": [

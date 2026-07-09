@@ -292,17 +292,14 @@ const ALLOWED_ORIGINS = [
 ].filter(Boolean) as string[];
 
 app.use((req, res, next) => {
-  const origin = req.headers.origin;
-  if (origin && ALLOWED_ORIGINS.includes(origin)) {
-    res.setHeader('Access-Control-Allow-Origin', origin);
-  }
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  res.header('Access-Control-Allow-Origin', 'https://pt-sinar-alam-semesta.netlify.app');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH');
+  res.header('Access-Control-Allow-Headers', 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Authorization');
+  res.header('Access-Control-Allow-Credentials', 'true');
 
   // Handle preflight OPTIONS request
   if (req.method === 'OPTIONS') {
-    return res.sendStatus(204);
+    return res.sendStatus(200).end();
   }
   next();
 });
