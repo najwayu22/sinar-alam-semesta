@@ -256,27 +256,32 @@ function initializeDatabase() {
 }
 
 // Read database from file
+// simpan di memori biar vercel serverless ga crash read-only
+let memoryDb: any = null;
+
 function readDb(): any {
-  if (!fs.existsSync(DB_FILE)) {
-    initializeDatabase();
+  if (!memoryDb) {
+    // buat data awal pas pertama kali server nyala
+    const defaultUsers = [
+      { id: 'u-1', email: 'admin@sinaralam.com', password: 'admin123', name: 'Budi Santoso', role: 'admin', department: 'Direksi' },
+      { id: 'u-2', email: 'andi@sinaralam.com', password: 'andi123', name: 'Andi Saputra', role: 'employee', department: 'Produksi' },
+      { id: 'u-3', email: 'citra@sinaralam.com', password: 'citra123', name: 'Citra Lestari', role: 'employee', department: 'Keuangan' },
+      { id: 'u-4', email: 'dewi@sinaralam.com', password: 'dewi123', name: 'Dewi Kartika', role: 'employee', department: 'Operasional' }
+    ];
+    memoryDb = {
+      users: defaultUsers,
+      attendance: [],
+      leaves: [],
+      notifications: []
+    };
   }
-  try {
-    const data = fs.readFileSync(DB_FILE, 'utf-8');
-    return JSON.parse(data);
-  } catch (error) {
-    initializeDatabase();
-    const data = fs.readFileSync(DB_FILE, 'utf-8');
-    return JSON.parse(data);
-  }
+  return memoryDb;
 }
 
-// Write database to file
 function saveDb(data: any) {
-  fs.writeFileSync(DB_FILE, JSON.stringify(data, null, 2), 'utf-8');
+  memoryDb = data; // simpan di ram saja
 }
-
 // Generate default database files right away
-initializeDatabase();
 
 // Express app config
 const app = express();
