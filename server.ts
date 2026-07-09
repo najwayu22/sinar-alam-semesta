@@ -3,7 +3,6 @@ import express from 'express';
 import path from 'path';
 import fs from 'fs';
 import jwt from 'jsonwebtoken';
-import { createServer as createViteServer } from 'vite';
 
 // ============================================================================
 // MYSQL DATABASE DDL SCHEMA (Untuk implementasi di server MySQL produksi)
@@ -287,6 +286,7 @@ function saveDb(data: any) {
 const app = express();
 const PORT = parseInt(process.env.PORT || '3000', 10);
 
+app.use(express.json());
 
 // CORS Middleware — izinkan frontend dari domain berbeda (Netlify)
 const ALLOWED_ORIGINS = [
@@ -905,6 +905,7 @@ app.get('/api/analytics', authenticateToken, (req: any, res) => {
 // Setup Vite & Static Files Hosting
 async function startServer() {
   if (process.env.NODE_ENV !== 'production') {
+    const { createServer: createViteServer } = await import('vite');
     const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: 'spa',
@@ -918,13 +919,17 @@ async function startServer() {
     });
   }
 
-  app.listen(PORT, '0.0.0.0', () => {
-    console.log(`========================================`);
-    console.log(`Server Sinar Alam Semesta running`);
-    console.log(`Akses local pada: http://localhost:${PORT}`);
-    console.log(`Local Time (UTC+8): ${getUTC8TimeComponents().dateString} ${getUTC8TimeComponents().timeString}`);
-    console.log(`========================================`);
-  });
+  if (!process.env.VERCEL) {
+    app.listen(PORT, '0.0.0.0', () => {
+      console.log(`========================================`);
+      console.log(`Server Sinar Alam Semesta running`);
+      console.log(`Akses local pada: http://localhost:${PORT}`);
+      console.log(`Local Time (UTC+8): ${getUTC8TimeComponents().dateString} ${getUTC8TimeComponents().timeString}`);
+      console.log(`========================================`);
+    });
+  }
 }
 
 startServer();
+
+export default app;
