@@ -282,12 +282,12 @@ initializeDatabase();
 const app = express();
 const PORT = parseInt(process.env.PORT || '3000', 10);
 
-app.use(express.json());
 
 // CORS Middleware — izinkan frontend dari domain berbeda (Netlify)
 const ALLOWED_ORIGINS = [
   'http://localhost:3000',
   'http://localhost:5173',
+  'https://pt-sinar-alam-semesta.netlify.app',
   process.env.FRONTEND_URL
 ].filter(Boolean) as string[];
 
