@@ -1,0 +1,6 @@
+{
+  "name": "Sinar Alam Semesta",
+  "description": "Sistem absensi, pengajuan cuti online, dan analitik kinerja karyawan PT Sinar Alam Semesta dengan otentikasi JWT.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
